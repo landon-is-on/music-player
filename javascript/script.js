@@ -1,4 +1,3 @@
-
 // querySelectors
 const musicContainer = document.querySelector('.music-container')
 const playBtn = document.querySelector('#play')
@@ -14,7 +13,7 @@ const cover = document.querySelector('#cover')
 const songs = ['hey', 'summer', 'ukulele']
 
 // keep track of songs
-let songIndex = 1
+let songIndex = 2
 
 //Initially load songs
 loadSong(songs[songIndex])
@@ -26,3 +25,55 @@ function loadSong(song) {
     audio.src = `/music/music-player_music_/${song}.mp3`
     cover.src = `/images/${song}.jpg`
 }
+
+function playSong() {
+    musicContainer.classList.add('play')
+playBtn.querySelector('i.fas').classList.remove('fa-play')
+playBtn.querySelector('i.fas').classList.add('fa-pause')
+
+audio.play()
+}
+function pauseSong() {
+    musicContainer.classList.remove('play')
+    playBtn.querySelector('i.fas').classList.add('fa-play')
+    playBtn.querySelector('i.fas').classList.remove('fa-pause')
+    audio.pause()
+}
+
+//prevuous song
+function prevSong() {
+songIndex--
+
+if(songIndex < 0) {
+songIndex = songs.length-1
+}
+
+loadSong(songs[songIndex])
+playSong()
+}
+
+///next song 
+function nextSong(){
+    songIndex++
+
+    if(songIndex > songs.length -1) {
+    songIndex = 0
+    }
+    
+    loadSong(songs[songIndex])
+    playSong()
+}
+
+//Event listener
+playBtn.addEventListener('click', () => {
+    const isplaying = musicContainer.classList.contains('play')
+
+    if(isplaying) {
+        pauseSong()
+    } else {
+        playSong()
+    }
+})
+// change song events
+prevBtn.addEventListener('click', prevSong)
+nextBtn.addEventListener('click', prevSong)
